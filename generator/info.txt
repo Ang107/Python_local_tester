@@ -1,0 +1,14 @@
+入力や正解の出力のためのフォルダです。
+解答者は基本的にこのフォルダに変更を行う必要はありません。
+
+以下製作者向け
+
+入力生成用のpythonコードをgenerator/generator_input/generator問題番号.pyに作成後、
+generate_input.shを実行してテストケースを作成できます。
+
+想定出力生成用のpythonコードをanswer/ans問題番号.pyに作成後、
+generate_output.shを実行して想定出力を作成できます。
+
+注意点
+windowsのpythonから実行するとエンコーダがUTF-8以外になるので、wsl環境で実行することを推奨します。
+（私の環境だけかもしれませんが）
