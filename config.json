@@ -1,0 +1,16 @@
+{
+    "problem_count": 5,
+    "test_case_count": 10,
+    "directories": {
+        "current": "/path/to/current/directory",
+        "input": "test/in",
+        "output": "test/out",
+        "generator": "generator",
+        "answer": "answer"
+    },
+    "limits": {
+        "max_input_length": 50,
+        "max_line_length": 10,
+        "time_limit": 3.0
+    }
+}
