@@ -35,6 +35,41 @@
 
 この手順を守ることで、スクリプトが正しく動作し、問題なくテストを実行することができます。
 
+### 設定ファイル (`config.json`)
+
+このファイルは、テスト環境の設定を定義します。
+
+```json
+{
+    "problem_count": 5,
+    "test_case_count": 10,
+    "directories": {
+        "current": "/path/to/current/directory",
+        "input": "test/in",
+        "output": "test/out",
+        "generator": "generator",
+        "answer": "answer"
+    },
+    "limits": {
+        "max_input_length": 50,
+        "max_line_length": 10,
+        "time_limit": 3.0
+    }
+}
+```
+- `problem_count`: 問題の総数
+- `test_case_count`: 各問題に対するテストケースの総数
+- `directories`: 各種ディレクトリのパス
+  - `current`: カレントディレクトリのパス
+  - `input`: 入力ファイルを保存するディレクトリのパス
+  - `output`: 出力ファイルを保存するディレクトリのパス
+  - `generator`: 入力生成スクリプトのディレクトリのパス
+  - `answer`: 想定解スクリプトのディレクトリのパス
+- `limits`: 各種制限
+  - `max_input_length`: 入力の最大長
+  - `max_line_length`: 各行の最大長
+  - `time_limit`: 各テストケースのタイムリミット（秒）
+
 ### フォルダ構成の例
 
 問題数が5、テストケース数が10の場合の例として、空ファイルを配置しています。必要に応じて、削除・追加してください。
