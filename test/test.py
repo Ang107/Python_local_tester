@@ -26,7 +26,7 @@ def select_problem() -> int:
 
 def summarize_output(output: str, max_lines: int = 10, max_length: int = 50) -> str:
     """
-    長い出力を要約して表示するための関数。
+    長い入出力を要約して表示するための関数。
     各行の長さが指定された最大長を超える場合、最初と最後の5文字を表示する。
     行数が指定された最大行数を超える場合、最初の25行と最後の25行を表示する。
     """
