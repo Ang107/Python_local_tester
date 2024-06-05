@@ -1,4 +1,5 @@
 import subprocess
+import time
 
 
 def select_problem() -> int:
@@ -24,13 +25,13 @@ def select_problem() -> int:
     return problem_num
 
 
-def run_test(problem_num: int) -> tuple[int, int, list[str]]:
+def run_test(problem_num: int, timeout: float) -> tuple[int, int, list[str]]:
     """
     テストを行う。
     正解数、テストケースごとの結果を格納したリストを返す。
     """
     AC_num = 0
-    test_result = []
+
     # テストケースは1 ~ 10 の10個で固定
     for test_number in range(1, 11):
         # 入力を読み込む
@@ -50,32 +51,35 @@ def run_test(problem_num: int) -> tuple[int, int, list[str]]:
             text=True,
         )
 
-        # 標準入力にテスト入力を渡し、標準出力をキャプチャ
-        stdout, stderr = process.communicate(input=test_input)
+        try:
+            # 標準入力にテスト入力を渡し、標準出力をキャプチャ
+            stdout, stderr = process.communicate(input=test_input, timeout=timeout)
+            passed = stdout.strip() == expected_output
+            if stderr:
+                result = f"\033[91mRE\033[0m\n{stderr}\n"  # 赤色
+            elif passed:
+                result = "\033[92mAC\033[0m\n"  # 緑色
+                AC_num += 1
+            else:
+                result = f"\033[91mWA\033[0m\n\033[96m[in]\033[0m:\n{test_input}\033[96m[out]\033[0m:\n{stdout}\033[96m[expected_out]\033[0m:\n{expected_output}\n"  # 赤色 + シアン色
+        except subprocess.TimeoutExpired:
+            process.kill()
+            result = "\033[91mTLE\033[0m\n"  # 赤色
 
-        passed = stdout.strip() == expected_output
-        if stderr:
-            test_result.append(f"実行時エラー: {stderr}\n")
-        elif passed:
-            test_result.append("AC\n")
-            AC_num += 1
-        else:
-            test_result.append(
-                f"WA\nin:\n{test_input}out: {stdout}\nexpected_out: {expected_output}\n"
-            )
-    return AC_num, test_result
+        print(f"[テストケース{test_number}]: {result}")
+
+    return AC_num
 
 
 def main():
     problem_num = select_problem()
-    AC_num, test_result = run_test(problem_num)
+    timeout = 3  # タイムアウト時間を秒で設定
+    AC_num = run_test(problem_num, timeout)
     if AC_num == 10:
-        print("全てのテストケースでACです。")
+        print("\033[92m全てのテストケースでACです。\033[0m")  # 緑色
     else:
-        print("不正解なケースがあります。")
+        print("\033[91m不正解なテストケースがあります。\033[0m")  # 赤色
         print(f"ACした数: {AC_num}/10")
-        for i, result in enumerate(test_result):
-            print(f"テストケース{i+1}: {result}")
 
 
 if __name__ == "__main__":
