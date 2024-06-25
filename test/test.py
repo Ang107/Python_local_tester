@@ -16,7 +16,7 @@ def load_config(config_path: str = "config.json") -> dict:
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"設定ファイルが見つかりません: {config_path}")
 
-    with open(config_path, "r") as file:
+    with open(config_path, "r", encoding="utf-8") as file:
         config = json.load(file)
     return config
 
