@@ -32,7 +32,7 @@ for problem_num in $(seq 1 "$PROBLEM_COUNT"); do
         mkdir -p "${OUTPUT_DIRECTORY}/${problem_num_with_0}"
 
         # 出力ファイルの生成
-        pypy3 "${ANSWER_DIRECTORY}/ans${problem_num_with_0}.py" < "${INPUT_DIRECTORY}/${problem_num_with_0}/in${test_num_with_0}.txt" > "${OUTPUT_DIRECTORY}/${problem_num_with_0}/out${test_num_with_0}.txt"
+        pypy3 "${ANSWER_DIRECTORY}/${problem_num_with_0}.py" < "${INPUT_DIRECTORY}/${problem_num_with_0}/testcase-${test_num_with_0}.txt" > "${OUTPUT_DIRECTORY}/${problem_num_with_0}/testcase-${test_num_with_0}.txt"
         if [[ $? -ne 0 ]]; then
             echo "出力ファイル生成中にエラーが発生しました: problem ${problem_num_with_0}, test case ${test_num_with_0}"
             exit 1

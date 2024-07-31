@@ -102,33 +102,50 @@ def run_test(problem_num: int, config: dict) -> int:
 
     for test_number in range(1, test_case_count + 1):
         with open(
-            f"{input_directory}/{problem_num:02}/in{test_number:02}.txt", "r"
+            f"{input_directory}/{problem_num:02}/testcase-{test_number:02}.txt", "r"
         ) as file:
             test_input = file.read()
 
         with open(
-            f"{output_directory}/{problem_num:02}/out{test_number:02}.txt", "r"
+            f"{output_directory}/{problem_num:02}/testcase-{test_number:02}.txt", "r"
         ) as file:
             expected_output = file.read().strip()
 
-        process = subprocess.Popen(
-            ["python", f"{problem_directory}/problem{problem_num:02}.py"],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-        )
+        try:
+            process = subprocess.Popen(
+                ["python", f"{problem_directory}/problem{problem_num:02}.py"],
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+        except FileNotFoundError:
+            process = subprocess.Popen(
+                ["python3", f"{problem_directory}/problem{problem_num:02}.py"],
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
 
         try:
             stdout, stderr = process.communicate(
                 input=test_input, timeout=config["limits"]["time_limit"]
             )
             passed = stdout.strip() == expected_output
-            if stderr:
-                result = f"\033[91mRE\033[0m\n{summarize_output(stderr, config['limits']['max_line_length'], config['limits']['max_input_length'])}\n"
-            elif passed:
+            if passed:
                 result = "\033[92mAC\033[0m\n"
                 AC_num += 1
+                
+            elif stderr:
+                result = (
+                    f"\033[91mRE\033[0m\n"
+                    f"\033[96m[in]\033[0m:\n{summarize_output(test_input, config['limits']['max_line_length'], config['limits']['max_input_length'])}\n"
+                    f"\033[96m[out]\033[0m:\n{summarize_output(stdout, config['limits']['max_line_length'], config['limits']['max_input_length'])}\n"
+                    f"\033[96m[expected_out]\033[0m:\n{summarize_output(expected_output, config['limits']['max_line_length'], config['limits']['max_input_length'])}\n"
+                    f"\033[96m[stderr]\033[0m:\n{stderr}\n"
+                )
+                
             else:
                 result = (
                     f"\033[91mWA\033[0m\n"

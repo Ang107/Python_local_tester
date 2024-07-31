@@ -2,16 +2,16 @@
 
 ## 概要
 
-このツールは、ローカル環境でPythonコードの簡単なテストを実行するための一式です。Windows環境のPowerShellで動作確認済みです。Pythonがインストールされており、PATHが設定されている必要があります。
+このツールは、ローカル環境で Python コードの簡単なテストを実行するための一式です。Windows 環境の PowerShell で動作確認済みです。Python がインストールされており、PATH が設定されている必要があります。
 
 ## 使用方法
 
 ### 解答者向け
 
-1. `problem` フォルダ内のPythonファイルに追記する形で問題を解いてください。
-2. 問題を解けた場合は、`test/test.py` を実行し、テストしたい問題番号を入力してください。
+1. `problem` フォルダ内の Python ファイルに追記する形で問題を解いてください。
+2. 問題を解けた場合は、`test.py` を実行し、テストしたい問題番号を入力してください。
 3. テストの結果が出力されます。
-4. 最後に「全てのテストケースでACです。」と表示されればその問題は正解です。
+4. 最後に「全てのテストケースで AC です。」と表示されればその問題は正解です。
 
 #### テストの結果の意味と対処法
 
@@ -23,33 +23,36 @@
 ### 問題作成者向け
 
 1. 設定ファイルの記述
-    1. `config.json` 内のカレントディレクトリに、`Python_local_tester` までの絶対パスを設定してください（後述する入力生成、出力生成に必要になります）。
-    2. ディレクトリ構造を晒すことになるため、回答者に配布する際には、カレントディレクトリの部分を削除するようにすると良いでしょう。
+
+   1. `config.json` 内のカレントディレクトリに、`Python_local_tester` までの絶対パスを設定してください（後述する入力生成、出力生成に必要になります）。
+   2. ディレクトリ構造を晒すことになるため、回答者に配布する際には、カレントディレクトリの部分を削除するようにすると良いでしょう。
 
 2. 入力設置
-    1. `inテストケース番号.txt` という形式で入力ファイルを設置してください。
-    2. ランダムな入力を生成したい場合は、`generate_input問題番号.py` という形式で入力生成ファイルを設置後、`generate_input.sh` を実行してください。
+
+   1. `testcases/in/問題番号/testcase-テストケース番号.txt` という形式で入力ファイルを設置してください。
+   2. ランダムな入力を生成したい場合は、`generator/generate_file/問題番号.py` という形式で入力生成ファイルを設置後、`generator/generate_input.sh` を実行してください。
 
 3. 模範解答設置
-    1. `ans問題番号.py` という形式で模範解答のPythonファイルを設置してください。
+
+   1. `answer/問題番号.py` という形式で模範解答の Python ファイルを設置してください。
 
 4. 出力生成
-    1. `outテストケース番号.txt` という形式で想定出力用ファイルを設置してください。
-    2. 入力ファイル、模範解答のPythonファイル設置後、`generate_output.sh` を実行することで、`answer` 内の模範解答ファイルを利用して想定出力ファイルをまとめて設置できます。
+   1. `testcases/out/問題番号/testcase-テストケース番号.txt` という形式で想定出力用ファイルを設置してください。
+   2. 入力ファイル、模範解答の Python ファイル設置後、`generator/generate_output.sh` を実行することで、`answer` 内の模範解答ファイルを利用して想定出力ファイルをまとめて設置できます。
 
 ### 作業ディレクトリに関する注意事項
 
-`test/test.py` を実行する際は、必ず **Python_local_tester** フォルダを作業ディレクトリ（カレントディレクトリ）として実行してください。これにより、スクリプトが正しいファイルパスを参照し、テストケースを正しく読み込むことができます。
+`test.py` を実行する際は、必ず **Python_local_tester** フォルダを作業ディレクトリ（カレントディレクトリ）として実行してください。これにより、スクリプトが正しいファイルパスを参照し、テストケースを正しく読み込むことができます。
 
 #### 例：
 
-1. PowerShellを開きます。
+1. PowerShell を開きます。
 2. **Python_local_tester** フォルダに移動します。
 3. `test/test.py` を実行します。
 
-    ```powershell
-    python .\test\test.py
-    ```
+   ```powershell
+   python .\test.py
+   ```
 
 この手順を守ることで、スクリプトが正しく動作し、問題なくテストを実行することができます。
 
@@ -59,22 +62,23 @@
 
 ```json
 {
-    "problem_count": 5,
-    "test_case_count": 10,
-    "directories": {
-        "current": "/path/to/current/directory",
-        "input": "test/in",
-        "output": "test/out",
-        "generator": "generator",
-        "answer": "answer"
-    },
-    "limits": {
-        "max_input_length": 50,
-        "max_line_length": 10,
-        "time_limit": 3.0
-    }
+  "problem_count": 5,
+  "test_case_count": 10,
+  "directories": {
+    "current": "/path/to/current/directory",
+    "input": "testcases/in",
+    "output": "testcases/out",
+    "generator": "generator",
+    "answer": "answer"
+  },
+  "limits": {
+    "max_input_length": 50,
+    "max_line_length": 10,
+    "time_limit": 5.0
+  }
 }
 ```
+
 - `problem_count`: 問題の総数
 - `test_case_count`: 各問題に対するテストケースの総数
 - `directories`: 各種ディレクトリのパス
@@ -90,4 +94,4 @@
 
 ### フォルダ構成の例
 
-問題数が5、テストケース数が10の場合の例として、空ファイルを配置しています。必要に応じて、削除・追加してください。
+問題数が 5、テストケース数が 10 の場合の例として、空ファイルを配置しています。必要に応じて、削除・追加してください。
