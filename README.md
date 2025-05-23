@@ -48,12 +48,11 @@ Python がインストールされており、PATH が設定されている必�
 
 #### 例：
 
-1. PowerShell を開きます。
-2. **Python_local_tester** フォルダに移動します。
-3. `test/test.py` を実行します。
+1. **Python_local_tester** フォルダに移動します。
+2. `test.py` を実行します。
 
    ```powershell
-   python .\test.py
+   python test.py
    ```
 
 この手順を守ることで、スクリプトが正しく動作し、問題なくテストを実行することができます。
